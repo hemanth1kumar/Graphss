@@ -15,7 +15,18 @@ public class Graph {
     void addEdge(int a, int b) {
         adjList[a].add(b);
     }
-
+    void printGraph() {
+        int n;
+        for(int i=0;i<V;i++) {
+            System.out.print(i);
+            ListIterator<Integer> l = adjList[i].listIterator();
+            while (l.hasNext()) {
+                n = l.next();
+                System.out.print("->"+n);
+            }
+            System.out.println();
+        }
+    }
     void bfs(int s) {
         System.out.print("BFS Traversal:");
         boolean visited[] = new boolean[V];
@@ -64,8 +75,17 @@ public class Graph {
         graph.addEdge(2,4);
         graph.addEdge(3,4);
         graph.addEdge(2,1);
+        graph.printGraph();
         graph.bfs(0);
         graph.dfs(0);
+        Graph graph2 = new Graph(6);
+        graph2.addEdge(0,1);
+        graph2.addEdge(0,2);
+        graph2.addEdge(0,3);
+        graph2.addEdge(1,3);
+        graph2.addEdge(2,4);
+        graph2.addEdge(3,5);
+
     }
 
 }
