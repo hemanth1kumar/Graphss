@@ -4,7 +4,7 @@ import java.util.ListIterator;
 
 public class Graph {
     private int V;
-    private LinkedList<Integer> adjList[];
+    private LinkedList<Integer>[] adjList;
     public Graph(int v){
         V = v;
         adjList = new LinkedList[V];
@@ -25,6 +25,7 @@ public class Graph {
                 System.out.print("->"+n);
             }
             System.out.println();
+            //System.out.println();
         }
     }
     void bfs(int s) {
@@ -61,7 +62,7 @@ public class Graph {
     }
     void dfs(int s) {
         System.out.print("DFS Traversal:");
-        boolean visited[] = new boolean[V];
+        boolean[] visited = new boolean[V];
         dfsUtil(s,visited);
         System.out.println();
     }
