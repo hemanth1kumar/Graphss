@@ -1,60 +1,38 @@
 import java.lang.reflect.Array;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
-
+import java.util.Stack;
 public class Topological_Sort {
+
+    public void printStack(Stack stack) {
+        while(!stack.empty()) {
+            System.out.print(stack.pop()+ ", ");
+        }
+    }
     public Topological_Sort(GraphClass graph) {
-        int vertex = inDegree(graph);
-        if(vertex == -1)
-            System.out.println("No Vertex with inDegree -1");
-        else
-            TopologicalSortUtil(graph,vertex);
+        Stack stack = new Stack();
+        int v = graph.getVertexNumber();
+        boolean[] visited = new boolean[v];
+        for(int i=0;i<v;i++) {
+            if(!visited[i])
+                TopologicalSortUtil(graph, visited, stack, i);
+        }
+        printStack(stack);
     }
-    void TopologicalSortUtil(GraphClass graph,int vertex) {
-        boolean[] visited = new boolean[graph.getVertexNumber()];
-        LinkedList<Integer> queue = new LinkedList<>();
-        queue.add(vertex);
-        while (queue.size() != 0) {
-            System.out.println(queue.poll());
-            ListIterator<Integer> i = (graph.getList(vertex)).listIterator();
-            while (i.hasNext()) {
-                vertex = i.next();
-                if(!visited[vertex]) {
-                    visited[vertex] = true;
-                    queue.add(vertex);
-                }
+    void TopologicalSortUtil(GraphClass graph,boolean[] visited,Stack stack, int num) {
+        visited[num] = true;
+        Iterator<Integer> ir;
+        ListIterator<Integer> i = (graph.getList(num)).listIterator();
+        while (i.hasNext()) {
+            int n = i.next();
+            if(!visited[n]) {
+                TopologicalSortUtil(graph, visited, stack, n);
             }
+            stack.push(n);
         }
     }
-    int inDegreeZero(boolean[] visited) {
-        for(int i=0;i< Array.getLength(visited);i++) {
-            if(visited[i] == false) {
-                return i;
-            }
-        }
-        return -1;
-    }
-    int inDegree(GraphClass graph) {
-        boolean[] visited = new boolean[graph.getVertexNumber()];
-        graph.dfsUtil(5,visited);
-        /*LinkedList<Integer> queue = new LinkedList<>();
-        int start = 0;
-        queue.add(start);
-        while (queue.size() != 0) {
-            queue.poll();
-            ListIterator<Integer> i = (graph.getList(start)).listIterator();
-            while (i.hasNext()) {
-                start = i.next();
-                if(!visited[start]) {
-                    visited[start] = true;
-                    queue.add(start);
-                }
-            }
-        }*/
-        int vertex = inDegreeZero(visited);
-        System.out.println("vertex = " + vertex);
-        return vertex;
-    }
+
     public static void main(String[] args) {
         GraphClass graph = new GraphClass(6);
         graph.addEdge(5,0);
